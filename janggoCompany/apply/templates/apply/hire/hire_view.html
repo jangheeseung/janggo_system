@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% block header %}
+<section class="justify-content-center" id='board'>
+    <div class="container board-size">
+        <table class="table table-bordered" style="width: 100%;">
+            <tr>
+                <th class="bg-light" width="40%;"><b class="d-flex justify-content-center">모집분야</b></th>
+                <td class="d-flex justify-content-center"><h5>{{ hire }}</h5></td>
+            </tr>
+            <tr>
+                <th class="bg-light"><b class="d-flex justify-content-center">모집형태</b></th>
+                <td class="d-flex justify-content-center">
+                    {% if hire.hire_type == 'intern' %}
+                    <b>인턴</b>
+                    {% else %}
+                    <b>채용</b>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th class="bg-light"><b class="d-flex justify-content-center">모집인원</b></th>
+                <td class="d-flex justify-content-center">
+                    <b>{{hire.num}} 명</b>
+                </td>
+            </tr>
+        </table>
+        <div class="container-fluid date-font-size">
+            <div class="row">
+                <div class="col-xs-3" style="margin-right:20px"><b>Stard date :</b> {{hire.start_date}} |</div>
+                <div class="col-xs-3" style="margin-right:20px"><b>End date :</b> {{hire.end_date}} |</div>
+                <div class="col-xs-3"><b>채용 인원 :</b> {{hire.num}} |</div>
+            </div>
+        </div>
+
+        <div class="card" style="width: 100%;">
+            <div class="card-header" style="word-spacing:40px">
+                <strong>자격요건</strong>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{hire.content1|linebreaks}}</p>
+            </div>
+        </div>
+        <br>
+        <div class="card" style="width: 100%;">
+                <div class="card-header" style="word-spacing:40px">
+                    <strong>기타 공지사항</strong>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{hire.content2|linebreaks}}</p>
+                    <!-- Button trigger modal -->
+                    <a class="btn btn-primary" href="{% url 'apply_create' hire.pk %}">
+                        지원하기
+                    </a>
+                </div>
+            </div>
+        {% if message %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

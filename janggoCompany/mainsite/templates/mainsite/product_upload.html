@@ -1,0 +1,18 @@
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+    <p>
+        <a href="{% url 'home' %}">Return to home</a>
+    </p>
+    {% for product in products %}
+        <div class="card">
+            <h3>{{product.title}}</h3>
+            <img src="/media/{{product.document}}">
+            <div>{{product.description}}</div>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% block title %}{% trans "product" %}
+{% endblock %}
+{% block header %}
+
+    <link href="{% static 'mainsite/css/product.css' %}?after" rel="stylesheet">
+    <link href="{% static 'mainsite/css/product1.css' %}?after" rel="stylesheet">
+
+<section id='product' class="product_section_padding bg-light">
+    <div class="d-flex" id="wrapper">
+
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">PRODUCT
+            </div>
+            <div class="list-group list-group-flush">
+                <div id='cssmenu'>
+                    {% for product_type in product_types %}
+                    <ul>
+                        <li {% for product_detail_type in product_detail_types %} {% if product_detail_type.product_type == product_type and product_detail_type %} class='has-sub' {% endif %}{% endfor %}>
+                            <a href='/product/{{product_type.id}}'>
+                                <strong>
+                                    <span>{{product_type.product_type}}</span>
+                                </strong>
+                            </a>
+                            {% for product_detail_type in product_detail_types %}
+                            {% if product_detail_type.product_type == product_type %}
+                            <ul>
+                                <li class='last'>
+                                        <a href="/product/{{product_detail_type.id}}/">
+                                            <span>{{product_detail_type.detail_type}}</span>
+                                        </a>
+                                </li>
+                            </ul>
+                            {% endif %}
+                            {% endfor %}
+                        </li>
+                    </ul>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom" id="navbarcansee">
+                <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+
+            </nav>
+            {% for p in product %}
+            {% if p %}
+            <div class="container container-fluid">
+                <h1 class="mt-4">{{ p.title }}</h1>
+                <div class="row">
+                    <div class="col-12 col-md-7">
+                        <figure class="figure">
+                            <img src="/media/{{p.document}}" alt="..." class="img_product">
+                            <figcaption class="figure-caption">{{ p.title }}</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-12 col-md-5">
+                        {{ p.description }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+</section>
+
+{% endblock %}

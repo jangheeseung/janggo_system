@@ -1,0 +1,115 @@
+{% extends 'layout.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% block header %}
+<section id='hire'>
+    <div class="container board-size" style="height:25rem; margin-top:5rem; ">
+        <table class="table table-hover" style="height:20rem;">
+            <thead>
+                <tr align ="center">
+                    <th scope="col" width="30%">{% trans "모집분야" %}</th>
+                    <th scope="col" width="15%" id="hidden-font">{% trans "모집인원" %}</th>
+                    <th scope="col" width="20%" id="hidden-font">{% trans "시작" %}</th>
+                    <th scope="col" width="20%">{% trans "종료" %}</th>
+                    <th scope="col" width="10%">Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contact in contacts %}
+                <tr align ="center">
+                    <th scope="row" id="hidden-font">{{contact.id}}</th>
+                    <td><a href="{% url 'hire_view' contact.pk %}">{{ contact.kind }}</a></td>
+                    <td id="hidden-font">{{ contact.num }}</td>
+                    <td class="date-font-size2" id="hidden-font">{{ contact.start_date }}</td>
+                    <td class="date-font-size2">{{ contact.end_date }}</td>
+                    <th>
+                        {% if contact.hire_type == "intern" %}
+                        <span class="badge badge-success p-2">{{contact.hire_type}}</span>
+                        {% else %}
+                        <span class="badge badge-warning p-2">{{contact.hire_type}}</span>
+                        {% endif %}
+                    </th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if message %}
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+            {% else %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+            {% endif %}
+        {% endif %}
+        <div class="pagination justify-content-center">
+            <span class="step-links">
+                {% if contacts.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ contacts.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+                </span>
+        
+                {% if contacts.has_next %}
+                    <a href="?page={{ contacts.next_page_number }}">next</a>
+                    <a href="?page={{ contacts.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+            {% trans "나의 지원서 확인하기" %}
+        </button>
+        {% if error == "True" %}
+        <div class="alert alert-danger" role="alert">
+            {{message}}
+        </div>
+        {% endif %}
+    </div>
+</section>
+  
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">나의 지원서 보기</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            공지사항을 입력해 주세요
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'check_apply' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleInputPassword1">E-mail</label>
+                    <input type="email" name="e_mail" class="form-control" id="exampleInputPassword1" placeholder="Insert your e-mail">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword2">Password</label>
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>모든부서 총 지원자수</th>
+                        <td>{{apply_len}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock%}

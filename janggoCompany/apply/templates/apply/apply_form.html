@@ -1,0 +1,157 @@
+{% extends 'layout.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% block header %}
+<style>
+
+@media (min-width: 1000px) {
+    .container1 {
+        max-width: 50%;
+        margin: auto; 
+        border: 4pt groove black;
+    }
+#apply_button{
+        margin-left: 25%;
+    }
+}
+
+@media (min-width: 992px) {
+    .container1 {
+        max-width: 50%;
+        margin: auto;
+    }
+    #apply_button{
+        margin-left: 5%;
+     }
+}
+
+#apply_button{
+    margin-left:70%;
+    margin-bottom: 2rem;
+}
+.apply_title{
+    text-align: center;
+    margin: 4%;
+}
+
+.form-control{
+   width: 65%;
+}
+
+.form-group{
+    margin-left: 5%;
+}
+
+.container1{
+    margin-top:5rem;
+}
+
+
+</style>
+<section id='hire' class="pb-5 mb-5">
+    <div class="container1">
+        <h3 class="apply_title">{{hire.kind}} APPLY</h3>
+        <form method="POST" action="{% if apply %}{% url 'apply_update' %}{% else %}{% url 'apply_create' pk %}{% endif %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+               <strong><label for="exampleFormControlInput1">Name</strong></label>
+                {% if apply %}
+                <input type="text" class="form-control col-3" name="name" id="exampleFormControlInput1" placeholder="Insert your name" value="{{apply.name}}" required>
+                {% else %}
+                <input type="text" class="form-control col-3" name="name" id="exampleFormControlInput1" placeholder="Insert your name" required>
+                {% endif %}
+            </div>
+            <div class="form-group">
+               <strong><label for="exampleFormControlInput3">Age</strong></label>
+                <input
+                    type="number"
+                    class="form-control col-3"
+                    name="age"
+                    id="exampleFormControlInput3"
+                    {% if hire %}
+                        value="{{apply.age}}"
+                    {% endif %}
+                    placeholder="0" min="0">
+            </div>
+            <div class="form-group">
+               <strong><label for="exampleFormControlInput2">PhoneNumber</strong></label>
+                {% if apply %}
+                <input type="tel" class="form-control col-6" name="phone" id="exampleFormControlInput2" placeholder="Insert your Phone number" value="{{apply.phone}}" required>
+                {% else %}
+                <input type="tel" class="form-control col-6" name="phone" id="exampleFormControlInput2" placeholder="Insert your Phone number" required>
+                {% endif %}
+            </div>
+            <div class="form-group">
+               <strong><label for="exampleFormControlInput2">E-mail</strong></label>
+                <br>
+                {% if apply %}
+               <strong><label>{{apply.e_mail}}<strong>/label>
+                {% else %}
+                <input type="email" class="form-control col-6" name="e_mail" id="exampleFormControlInput2" placeholder="Insert your E-mail" required>
+                {% endif %}
+            </div>
+            <div class="form-group">
+               <strong><label for="exampleFormControlInput2">Password</strong></label>
+                <br>
+                {% if apply %}
+                <input type="password" class="form-control col-6" name="password" id="exampleFormControlInput2" placeholder="Insert your password" value="{{apply.password}}" required>
+                {% else %}
+                <input type="password" class="form-control col-6" name="password" id="exampleFormControlInput2" placeholder="Insert your password" required>
+                {% endif %}
+            </div>
+            <div class="form-group">
+               <strong><label for="exampleFormControlInput1">Address</strong></label>
+                {% if apply %}
+                <input type="text" class="form-control " name="address" id="exampleFormControlInput1" placeholder="Insert your address" value="{{apply.address}}" required>
+                {% else %}
+                <input type="text" class="form-control " name="address" id="exampleFormControlInput1" placeholder="Insert your address" required>
+                {% endif %}
+            </div>
+            <div class="form-group">
+               <strong><label for="exampleFormControlInput1">School(high&college)</strong></label>
+                {% if apply %}
+                <input type="text" class="form-control col-6" name="college" id="exampleFormControlInput1" placeholder="Insert your Education" value="{{apply.college}}" required>
+                {% else %}
+                <input type="text" class="form-control col-6" name="college" id="exampleFormControlInput1" placeholder="Insert your Education" required>
+                {% endif %}
+            </div>
+            <div class="form-group">
+               <strong><label for="exampleFormControlInput1">Major ("None" entry if not present )</strong></label>
+                {% if apply %}
+                <input type="text" class="form-control col-6" name="major" id="exampleFormControlInput1" placeholder="Insert your major" value="{{apply.major}}" required>
+                {% else %}
+                <input type="text" class="form-control col-6" name="major" id="exampleFormControlInput1" placeholder="Insert your major" required>
+                {% endif %}
+            </div>
+            <div class="form-group">
+               <strong><label for="exampleFormControlInput1">Graduation status </strong></label>
+                {% if apply %}
+                <select class="form-control col-2" name="graduate" id="exampleFormControlSelect1" width="5%" value="{{apply.graduate}}">
+                    <option>True</option>
+                    <option>False</option>
+                </select>
+                {% else %}
+                <select class="form-control col-2" name="graduate" id="exampleFormControlSelect1" width="5%">
+                    <option>True</option>
+                    <option>False</option>
+                </select>
+                {% endif %}
+            </div>
+            <div class="form-group">
+               <strong><label for="exampleFormControlInput1">Submit a letter of self-introduction(30MBlimit)</strong></label>
+                {% if apply %}
+                <br>
+               <strong><label>{{apply.document}}<strong>/label>
+                <input type="file" class="form-control " name="document" id="exampleFormControlInput1" >
+                {% else %}
+                <input type="file" class="form-control " name="document" id="exampleFormControlInput1" >
+                {% endif %}
+            </div>
+            <input type="hidden" name="hire_pk" value="{{hire.pk}}">
+            <input type="hidden" name="apply_pk" value="{{apply.pk}}">
+            <button type="submit" id ="apply_button"class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</section>
+
+{% endblock%}

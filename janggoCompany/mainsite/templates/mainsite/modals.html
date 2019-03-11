@@ -1,0 +1,49 @@
+{% extends 'mainsite/with.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% block modals %}
+<!-- footer email modal -->
+<div class="modal fade"id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img src ="{%static 'mainsite/img/logo.png'%}"width="40rem" height="40rem"class="modal-title" id="exampleModalLabel1">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                 <h6>Address : 22665  인천 서구 검단천로 356번길 43 <br>(43.Geomdancheon-ro 356beon-gil,Seo-gu, Incheon, Korea )<br><br>
+                   Sales Tel : +82-31-499-7284 (Extension number 200) <br>Fax : +82-31-499-7287<br><br>
+                   Sales-mail :  jangdsn@jgkorea.co.kr<br>
+                 </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- footer map modal -->
+<div class="modal fade bd-example-modal-lg"id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <img src ="{%static 'mainsite/img/logo.png'%}"width="40rem" height="40rem"class="modal-title" id="exampleModalLabel2">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <strong><h6>1. Incheon Air Port → 
+                Janggo System(34km)  Car 40 minute
+                <h6>
+                2. Kimpo Air Port → 
+                Janggo System(23km) Car 30 minute
+                </p></strong>
+            <img class="map_img"src="{% static 'mainsite/img/company/map.png'%}" width="100%" height="100%"alt="map">
+            <br><br>
+            <strong><h6>주 소 : 인천시 서구 검단천로 356번길 43 (오류동 1639-11번지)
+            </h6></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
